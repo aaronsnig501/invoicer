@@ -1,0 +1,181 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Welcome to Invoicer’s documentation! &#8212; Invoicer 0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-invoicer-s-documentation">
+<h1>Welcome to Invoicer’s documentation!<a class="headerlink" href="#welcome-to-invoicer-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+<div class="section" id="module-work_sessions.models">
+<span id="worksession-models"></span><h1>WorkSession models<a class="headerlink" href="#module-work_sessions.models" title="Permalink to this headline">¶</a></h1>
+<p>This model will store the information relating to sessions and the total
+billable per each session.</p>
+<p>A session is considered to be the amount of work that was done in a time. An
+example of this could be a meeting, a planning session, working a piece of
+functionality, or writing tests/documentation, etc.</p>
+<dl class="class">
+<dt id="work_sessions.models.Session">
+<em class="property">class </em><code class="descclassname">work_sessions.models.</code><code class="descname">Session</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/work_sessions/models.html#Session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#work_sessions.models.Session" title="Permalink to this definition">¶</a></dt>
+<dd><p>The session model</p>
+<p>Stores information about the length of the individual sessions, and the
+total billable for each session</p>
+<dl class="exception">
+<dt id="work_sessions.models.Session.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#work_sessions.models.Session.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="work_sessions.models.Session.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#work_sessions.models.Session.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-work_sessions.serializers">
+<span id="worksession-serializers"></span><h1>WorkSession serializers<a class="headerlink" href="#module-work_sessions.serializers" title="Permalink to this headline">¶</a></h1>
+<p>This module is the serializers that will map to any models defined in this
+package.</p>
+<dl class="class">
+<dt id="work_sessions.serializers.SessionSerializer">
+<em class="property">class </em><code class="descclassname">work_sessions.serializers.</code><code class="descname">SessionSerializer</code><span class="sig-paren">(</span><em>instance=None</em>, <em>data=&lt;class 'rest_framework.fields.empty'&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/work_sessions/serializers.html#SessionSerializer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#work_sessions.serializers.SessionSerializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>The session serializer</p>
+<p>Serializes all of the fields in the <cite>Session</cite> model</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-work_sessions.views">
+<span id="worksession-views"></span><h1>WorkSession views<a class="headerlink" href="#module-work_sessions.views" title="Permalink to this headline">¶</a></h1>
+<p>The session views module.</p>
+<p>All of the interactions with the sessions models will happen through the views
+defined here. In general, these views will require authentication as this is
+sensitive information that likely shouldn’t be shared with anyone.</p>
+<dl class="class">
+<dt id="work_sessions.views.SessionViewset">
+<em class="property">class </em><code class="descclassname">work_sessions.views.</code><code class="descname">SessionViewset</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/work_sessions/views.html#SessionViewset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#work_sessions.views.SessionViewset" title="Permalink to this definition">¶</a></dt>
+<dd><p>The session viewset</p>
+<p>The view that will handle the interactions with the <cite>Session</cite> model. This
+viewset is ReadOnly as records will generally be automated and can also be
+created in the admin panel. As of yet there is no requirement to create
+sessions from this view.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns an array of JSON objects containing the fields
+specified in the <cite>serializer_class</cite></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">JSON Array</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="work_sessions.views.SessionViewset.serializer_class">
+<code class="descname">serializer_class</code><a class="headerlink" href="#work_sessions.views.SessionViewset.serializer_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#work_sessions.serializers.SessionSerializer" title="work_sessions.serializers.SessionSerializer"><code class="xref py py-class docutils literal notranslate"><span class="pre">work_sessions.serializers.SessionSerializer</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to Invoicer’s documentation!</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#module-work_sessions.models">WorkSession models</a></li>
+<li><a class="reference internal" href="#module-work_sessions.serializers">WorkSession serializers</a></li>
+<li><a class="reference internal" href="#module-work_sessions.views">WorkSession views</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Aaron Sinnott.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
