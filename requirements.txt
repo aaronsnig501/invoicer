@@ -6,7 +6,9 @@ certifi==2020.4.5.1
 chardet==3.0.4
 commonmark==0.9.1
 Django==3.0.6
+django-templated-mail==1.1.1
 djangorestframework==3.11.0
+djoser==2.0.3
 docutils==0.16
 google-auth==1.14.2
 google-auth-oauthlib==0.4.1
