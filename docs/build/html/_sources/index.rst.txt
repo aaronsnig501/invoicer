@@ -35,3 +35,20 @@ WorkSession views
 =================
 .. automodule:: work_sessions.views
    :members:
+
+Projects models
+===============
+.. automodule:: projects.models
+   :members:
+
+
+Projects serializers
+====================
+.. automodule:: projects.serializers
+   :members:
+
+
+Projects views
+==============
+.. automodule:: projects.views
+   :members:

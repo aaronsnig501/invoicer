@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
-    'work_sessions'
+    'work_sessions',
+    'projects'
 ]
 
 MIDDLEWARE = [
