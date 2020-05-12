@@ -51,12 +51,31 @@ billable per each session.</p>
 <p>A session is considered to be the amount of work that was done in a time. An
 example of this could be a meeting, a planning session, working a piece of
 functionality, or writing tests/documentation, etc.</p>
+<p>All sessions of work most be carried out as a part of a project. The project
+determines the rate of pay and any other additional information related to the
+project.</p>
 <dl class="class">
 <dt id="work_sessions.models.Session">
 <em class="property">class </em><code class="descclassname">work_sessions.models.</code><code class="descname">Session</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/work_sessions/models.html#Session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#work_sessions.models.Session" title="Permalink to this definition">¶</a></dt>
 <dd><p>The session model</p>
 <p>Stores information about the length of the individual sessions, and the
-total billable for each session</p>
+total billable for each session.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>date</strong> (<em>date</em>) – The date the session occured on</li>
+<li><strong>duration</strong> (<em>timedelate</em>) – The length of time that this work was carried</li>
+<li><strong>for</strong> (<em>out</em>) – </li>
+<li><strong>total_billable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – The total amount of money that was earned for</li>
+<li><strong>work session</strong> (<em>this</em>) – </li>
+<li><strong>project</strong> (<a class="reference internal" href="#projects.models.Project" title="projects.models.Project"><em>Project</em></a>) – The project that this work was carried out for</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="exception">
 <dt id="work_sessions.models.Session.DoesNotExist">
 <em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#work_sessions.models.Session.DoesNotExist" title="Permalink to this definition">¶</a></dt>

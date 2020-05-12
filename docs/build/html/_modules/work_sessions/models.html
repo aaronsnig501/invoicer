@@ -39,21 +39,35 @@
 <span class="sd">A session is considered to be the amount of work that was done in a time. An</span>
 <span class="sd">example of this could be a meeting, a planning session, working a piece of</span>
 <span class="sd">functionality, or writing tests/documentation, etc.</span>
+
+<span class="sd">All sessions of work most be carried out as a part of a project. The project</span>
+<span class="sd">determines the rate of pay and any other additional information related to the</span>
+<span class="sd">project.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">projects.models</span> <span class="kn">import</span> <span class="n">Project</span>
 
 
 <div class="viewcode-block" id="Session"><a class="viewcode-back" href="../../index.html#work_sessions.models.Session">[docs]</a><span class="k">class</span> <span class="nc">Session</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The session model</span>
 
 <span class="sd">    Stores information about the length of the individual sessions, and the</span>
-<span class="sd">    total billable for each session</span>
+<span class="sd">    total billable for each session.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        date (date): The date the session occured on</span>
+<span class="sd">        duration (timedelate): The length of time that this work was carried</span>
+<span class="sd">        out for</span>
+<span class="sd">        total_billable (float): The total amount of money that was earned for</span>
+<span class="sd">        this work session</span>
+<span class="sd">        project (Project): The project that this work was carried out for</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">duration</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DurationField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">total_billable</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span>
         <span class="n">max_digits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">project</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Project</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
     
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> - </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_billable</span><span class="p">)</span></div>
