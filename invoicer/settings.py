@@ -133,3 +133,5 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication'
     )
 }
+
+CREDS_LOCATION = os.getenv("CREDS")
