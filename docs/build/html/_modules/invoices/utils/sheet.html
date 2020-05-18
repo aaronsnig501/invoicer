@@ -36,6 +36,7 @@
 
 <span class="sd">Handle the formatting of the Google Sheet</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
 <span class="kn">from</span> <span class="nn">gspread_formatting</span>  <span class="kn">import</span> <span class="p">(</span>
     <span class="n">cellFormat</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">textFormat</span><span class="p">,</span> <span class="n">format_cell_ranges</span><span class="p">)</span>
@@ -66,6 +67,15 @@
     <span class="n">INVOICE_FOR_ADDRESS_LINE_ONE</span> <span class="o">=</span> <span class="s2">&quot;B14&quot;</span>
     <span class="n">INVOICE_FOR_ADDRESS_LINE_TWO</span> <span class="o">=</span> <span class="s2">&quot;B15&quot;</span>
     <span class="n">INVOICE_FOR_ADDRESS_LINE_THREE</span> <span class="o">=</span> <span class="s2">&quot;B16&quot;</span>
+
+    <span class="n">PAYABLE_TO_TITLE</span> <span class="o">=</span> <span class="s2">&quot;D12&quot;</span>
+    <span class="n">PAYABLE_TO</span> <span class="o">=</span> <span class="s2">&quot;D13&quot;</span>
+    <span class="n">INVOICE_NUMBER_TITLE</span> <span class="o">=</span> <span class="s2">&quot;F12&quot;</span>
+    <span class="n">INVOICE_NUMBER</span> <span class="o">=</span> <span class="s2">&quot;F13&quot;</span>
+    <span class="n">PROJECT_TITLE</span> <span class="o">=</span> <span class="s2">&quot;D15&quot;</span>
+    <span class="n">PROJECT</span> <span class="o">=</span> <span class="s2">&quot;D16&quot;</span>
+    <span class="n">DUE_DATE_TITLE</span> <span class="o">=</span> <span class="s2">&quot;F15&quot;</span>
+    <span class="n">DUE_DATE</span> <span class="o">=</span> <span class="s2">&quot;F16&quot;</span>
 
     <span class="n">TABLE_HEADER_ROW</span> <span class="o">=</span> <span class="s2">&quot;19&quot;</span>
     <span class="n">DESCRIPTION_HEADER</span> <span class="o">=</span> <span class="s2">&quot;B&quot;</span> <span class="o">+</span> <span class="n">TABLE_HEADER_ROW</span>
@@ -118,7 +128,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">PHONE</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">PHONE</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">INVOICE_FOR</span><span class="p">,</span> <span class="s2">&quot;Invoice For&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">INVOICE_FOR_FULL_NAME_CELL</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">FULL_NAME</span><span class="p">)</span>        
         <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
@@ -134,7 +143,27 @@
 <span class="sd">        Add today&#39;s date as the date of submission</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SUBMISSION_DATE</span><span class="p">,</span> <span class="s2">&quot;Submitted on: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y&quot;</span><span class="p">)))</span></div></div>
+            <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y&quot;</span><span class="p">)))</span></div>
+    
+<div class="viewcode-block" id="SheetFormatMixin.add_due_date"><a class="viewcode-back" href="../../../index.html#invoices.utils.sheet.SheetFormatMixin.add_due_date">[docs]</a>    <span class="k">def</span> <span class="nf">add_due_date</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add the due date</span>
+
+<span class="sd">        The due date for the invoice will be 30 days after the submission date</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">due_date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DUE_DATE_TITLE</span><span class="p">,</span> <span class="s2">&quot;Due Date&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DUE_DATE</span><span class="p">,</span> <span class="n">due_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y&quot;</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="SheetFormatMixin.add_additional_titles_to_header"><a class="viewcode-back" href="../../../index.html#invoices.utils.sheet.SheetFormatMixin.add_additional_titles_to_header">[docs]</a>    <span class="k">def</span> <span class="nf">add_additional_titles_to_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add additional titles to the invoicer header</span>
+
+<span class="sd">        Add the remainder of the information to the header of the invoice</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PAYABLE_TO_TITLE</span><span class="p">,</span> <span class="s2">&quot;Payable To&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PAYABLE_TO</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">FULL_NAME</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">INVOICE_NUMBER_TITLE</span><span class="p">,</span> <span class="s2">&quot;Invoice #&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PROJECT_TITLE</span><span class="p">,</span> <span class="s2">&quot;Project&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>

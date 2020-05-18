@@ -26,3 +26,5 @@ class Command(BaseCommand, SheetFormatMixin):
         self.invoicer_name()
         self.add_invoicer_address()
         self.add_submission_date()
+        self.add_due_date()
+        self.add_additional_titles_to_header()

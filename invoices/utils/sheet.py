@@ -2,6 +2,7 @@
 
 Handle the formatting of the Google Sheet
 """
+from datetime import timedelta
 from datetime import date
 from gspread_formatting  import (
     cellFormat, color, textFormat, format_cell_ranges)
@@ -32,6 +33,15 @@ class SheetFormatMixin:
     INVOICE_FOR_ADDRESS_LINE_ONE = "B14"
     INVOICE_FOR_ADDRESS_LINE_TWO = "B15"
     INVOICE_FOR_ADDRESS_LINE_THREE = "B16"
+
+    PAYABLE_TO_TITLE = "D12"
+    PAYABLE_TO = "D13"
+    INVOICE_NUMBER_TITLE = "F12"
+    INVOICE_NUMBER = "F13"
+    PROJECT_TITLE = "D15"
+    PROJECT = "D16"
+    DUE_DATE_TITLE = "F15"
+    DUE_DATE = "F16"
 
     TABLE_HEADER_ROW = "19"
     DESCRIPTION_HEADER = "B" + TABLE_HEADER_ROW
@@ -84,7 +94,6 @@ class SheetFormatMixin:
         self.worksheet.update(
             self.PHONE, settings.PHONE)
 
-        self.worksheet.update(self.INVOICE_FOR, "Invoice For")
         self.worksheet.update(
             self.INVOICE_FOR_FULL_NAME_CELL, settings.FULL_NAME)        
         self.worksheet.update(
@@ -101,3 +110,23 @@ class SheetFormatMixin:
         """
         self.worksheet.update(self.SUBMISSION_DATE, "Submitted on: {}".format(
             date.today().strftime("%d/%m/%Y")))
+    
+    def add_due_date(self):
+        """Add the due date
+
+        The due date for the invoice will be 30 days after the submission date
+        """
+        due_date = date.today() + timedelta(days=30)
+        self.worksheet.update(self.DUE_DATE_TITLE, "Due Date")
+        self.worksheet.update(self.DUE_DATE, due_date.strftime("%d/%m/%Y"))
+    
+    def add_additional_titles_to_header(self):
+        """Add additional titles to the invoicer header
+
+        Add the remainder of the information to the header of the invoice
+        """
+        self.worksheet.update(self.PAYABLE_TO_TITLE, "Payable To")
+        self.worksheet.update(self.PAYABLE_TO, settings.FULL_NAME)
+
+        self.worksheet.update(self.INVOICE_NUMBER_TITLE, "Invoice #")
+        self.worksheet.update(self.PROJECT_TITLE, "Project")
