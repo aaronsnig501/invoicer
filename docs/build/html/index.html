@@ -243,6 +243,70 @@ list of the sessions and the total value of all of the work completed.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-invoices.utils.auth">
+<span id="invoices-utils-auth"></span><h1>Invoices utils.auth<a class="headerlink" href="#module-invoices.utils.auth" title="Permalink to this headline">¶</a></h1>
+<p>auth.py</p>
+<p>A wrapper over Googles authentication.</p>
+<dl class="function">
+<dt id="invoices.utils.auth.authenticate">
+<code class="descclassname">invoices.utils.auth.</code><code class="descname">authenticate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/invoices/utils/auth.html#authenticate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#invoices.utils.auth.authenticate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Authenticates against Google</p>
+<p>This function wraps up the authentication for the Google API. This will
+allow programmatic access to Google Sheets and Google Drive. The creds are
+read from the <cite>CREDS_LOCATION</cite> setting.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A client object that will be used to communicate with
+the API provided by <cite>gspread</cite></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">client (Client)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-invoices.utils.sheet">
+<span id="invoices-utils-sheet"></span><h1>Invoices utils.sheet<a class="headerlink" href="#module-invoices.utils.sheet" title="Permalink to this headline">¶</a></h1>
+<p>sheet.py</p>
+<p>Handle the formatting of the Google Sheet</p>
+<dl class="class">
+<dt id="invoices.utils.sheet.SheetFormatMixin">
+<em class="property">class </em><code class="descclassname">invoices.utils.sheet.</code><code class="descname">SheetFormatMixin</code><a class="reference internal" href="_modules/invoices/utils/sheet.html#SheetFormatMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#invoices.utils.sheet.SheetFormatMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>A mixin class that will provide the mapping and formatting for the Google
+Sheet. This is the class that will define where each piece of information
+belongs on the invoice</p>
+<dl class="method">
+<dt id="invoices.utils.sheet.SheetFormatMixin.format_header">
+<code class="descname">format_header</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/invoices/utils/sheet.html#SheetFormatMixin.format_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#invoices.utils.sheet.SheetFormatMixin.format_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the header of the invoice.</p>
+<p>Turns the first row of the invoice blue</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-invoices.management.commands.generate_invoice">
+<span id="invoices-management"></span><h1>Invoices management<a class="headerlink" href="#module-invoices.management.commands.generate_invoice" title="Permalink to this headline">¶</a></h1>
+<p>generate_invoice.py</p>
+<p>This command will be used generate a new invoice in Google Sheets every month.</p>
+<dl class="class">
+<dt id="invoices.management.commands.generate_invoice.Command">
+<em class="property">class </em><code class="descclassname">invoices.management.commands.generate_invoice.</code><code class="descname">Command</code><span class="sig-paren">(</span><em>stdout=None</em>, <em>stderr=None</em>, <em>no_color=False</em>, <em>force_color=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/invoices/management/commands/generate_invoice.html#Command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#invoices.management.commands.generate_invoice.Command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate monthly invoices</p>
+<p>This command will generate an invoice every month and create it on Google
+Sheets</p>
+<dl class="method">
+<dt id="invoices.management.commands.generate_invoice.Command.handle">
+<code class="descname">handle</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/invoices/management/commands/generate_invoice.html#Command.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#invoices.management.commands.generate_invoice.Command.handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle the command</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 
 
           </div>
@@ -262,6 +326,9 @@ list of the sessions and the total value of all of the work completed.</p>
 <li><a class="reference internal" href="#module-projects.serializers">Projects serializers</a></li>
 <li><a class="reference internal" href="#module-projects.views">Projects views</a></li>
 <li><a class="reference internal" href="#module-invoices.models">Invoices models</a></li>
+<li><a class="reference internal" href="#module-invoices.utils.auth">Invoices utils.auth</a></li>
+<li><a class="reference internal" href="#module-invoices.utils.sheet">Invoices utils.sheet</a></li>
+<li><a class="reference internal" href="#module-invoices.management.commands.generate_invoice">Invoices management</a></li>
 </ul>
 <div class="relations">
 <h3>Related Topics</h3>

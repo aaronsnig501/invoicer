@@ -58,3 +58,21 @@ Invoices models
 ===============
 .. automodule:: invoices.models
    :members:
+
+
+Invoices utils.auth
+===================
+.. automodule:: invoices.utils.auth
+   :members:
+
+
+Invoices utils.sheet
+====================
+.. automodule:: invoices.utils.sheet
+   :members:
+
+
+Invoices management
+===================
+.. automodule:: invoices.management.commands.generate_invoice
+   :members:
