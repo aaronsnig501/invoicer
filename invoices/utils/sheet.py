@@ -2,8 +2,10 @@
 
 Handle the formatting of the Google Sheet
 """
+from datetime import date
 from gspread_formatting  import (
     cellFormat, color, textFormat, format_cell_ranges)
+from django.conf import settings
 
 
 class SheetFormatMixin:
@@ -48,3 +50,54 @@ class SheetFormatMixin:
         format_cell_ranges(self.worksheet, [(
             self.SHEET_START_POINT + ":" + self.LAST_COLUMN + "1", header_format
         )])
+    
+    def invoicer_name(self):
+        """Add the main title
+
+        Add the name of the invoicer has a heading
+        """
+        self.worksheet.update(self.FULL_NAME_CELL, settings.FULL_NAME)
+        self.worksheet.format(self.FULL_NAME_CELL, {
+            "textFormat": {
+                "foregroundColor": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0.95
+                },
+                "fontFamily": "Roboto",
+                "fontSize": 20
+            }
+        })
+    
+    def add_invoicer_address(self):
+        """Add invoicer address
+
+        The address appears in multiple locations on the sheet, so we'll add
+        both here
+        """
+        self.worksheet.update(
+            self.ADDRESS_LINE_ONE, settings.ADDRESS_LINE_ONE)
+        self.worksheet.update(
+            self.ADDRESS_LINE_TWO, settings.ADDRESS_LINE_TWO)
+        self.worksheet.update(
+            self.ADDRESS_LINE_THREE, settings.ADDRESS_LINE_THREE)
+        self.worksheet.update(
+            self.PHONE, settings.PHONE)
+
+        self.worksheet.update(self.INVOICE_FOR, "Invoice For")
+        self.worksheet.update(
+            self.INVOICE_FOR_FULL_NAME_CELL, settings.FULL_NAME)        
+        self.worksheet.update(
+            self.INVOICE_FOR_ADDRESS_LINE_ONE, settings.ADDRESS_LINE_ONE)
+        self.worksheet.update(
+            self.INVOICE_FOR_ADDRESS_LINE_TWO, settings.ADDRESS_LINE_TWO)
+        self.worksheet.update(
+            self.INVOICE_FOR_ADDRESS_LINE_THREE, settings.ADDRESS_LINE_THREE)
+    
+    def add_submission_date(self):
+        """Add submission date
+
+        Add today's date as the date of submission
+        """
+        self.worksheet.update(self.SUBMISSION_DATE, "Submitted on: {}".format(
+            date.today().strftime("%d/%m/%Y")))

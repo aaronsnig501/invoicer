@@ -36,8 +36,10 @@
 
 <span class="sd">Handle the formatting of the Google Sheet</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
 <span class="kn">from</span> <span class="nn">gspread_formatting</span>  <span class="kn">import</span> <span class="p">(</span>
     <span class="n">cellFormat</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">textFormat</span><span class="p">,</span> <span class="n">format_cell_ranges</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
 
 
 <div class="viewcode-block" id="SheetFormatMixin"><a class="viewcode-back" href="../../../index.html#invoices.utils.sheet.SheetFormatMixin">[docs]</a><span class="k">class</span> <span class="nc">SheetFormatMixin</span><span class="p">:</span>
@@ -81,7 +83,58 @@
 
         <span class="n">format_cell_ranges</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="p">,</span> <span class="p">[(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">SHEET_START_POINT</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">LAST_COLUMN</span> <span class="o">+</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="n">header_format</span>
-        <span class="p">)])</span></div></div>
+        <span class="p">)])</span></div>
+    
+<div class="viewcode-block" id="SheetFormatMixin.invoicer_name"><a class="viewcode-back" href="../../../index.html#invoices.utils.sheet.SheetFormatMixin.invoicer_name">[docs]</a>    <span class="k">def</span> <span class="nf">invoicer_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add the main title</span>
+
+<span class="sd">        Add the name of the invoicer has a heading</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FULL_NAME_CELL</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">FULL_NAME</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FULL_NAME_CELL</span><span class="p">,</span> <span class="p">{</span>
+            <span class="s2">&quot;textFormat&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;foregroundColor&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;red&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="s2">&quot;green&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="s2">&quot;blue&quot;</span><span class="p">:</span> <span class="mf">0.95</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;fontFamily&quot;</span><span class="p">:</span> <span class="s2">&quot;Roboto&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;fontSize&quot;</span><span class="p">:</span> <span class="mi">20</span>
+            <span class="p">}</span>
+        <span class="p">})</span></div>
+    
+<div class="viewcode-block" id="SheetFormatMixin.add_invoicer_address"><a class="viewcode-back" href="../../../index.html#invoices.utils.sheet.SheetFormatMixin.add_invoicer_address">[docs]</a>    <span class="k">def</span> <span class="nf">add_invoicer_address</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add invoicer address</span>
+
+<span class="sd">        The address appears in multiple locations on the sheet, so we&#39;ll add</span>
+<span class="sd">        both here</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ADDRESS_LINE_ONE</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">ADDRESS_LINE_ONE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ADDRESS_LINE_TWO</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">ADDRESS_LINE_TWO</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ADDRESS_LINE_THREE</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">ADDRESS_LINE_THREE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">PHONE</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">PHONE</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">INVOICE_FOR</span><span class="p">,</span> <span class="s2">&quot;Invoice For&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">INVOICE_FOR_FULL_NAME_CELL</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">FULL_NAME</span><span class="p">)</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">INVOICE_FOR_ADDRESS_LINE_ONE</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">ADDRESS_LINE_ONE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">INVOICE_FOR_ADDRESS_LINE_TWO</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">ADDRESS_LINE_TWO</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">INVOICE_FOR_ADDRESS_LINE_THREE</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">ADDRESS_LINE_THREE</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="SheetFormatMixin.add_submission_date"><a class="viewcode-back" href="../../../index.html#invoices.utils.sheet.SheetFormatMixin.add_submission_date">[docs]</a>    <span class="k">def</span> <span class="nf">add_submission_date</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add submission date</span>
+
+<span class="sd">        Add today&#39;s date as the date of submission</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SUBMISSION_DATE</span><span class="p">,</span> <span class="s2">&quot;Submitted on: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y&quot;</span><span class="p">)))</span></div></div>
 </pre></div>
 
           </div>

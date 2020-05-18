@@ -2,7 +2,6 @@
 
 This command will be used generate a new invoice in Google Sheets every month.
 """
-from datetime import date
 from django.core.management.base import BaseCommand, CommandError
 from invoices.utils.auth import authenticate
 from invoices.utils.sheet import SheetFormatMixin
@@ -22,4 +21,8 @@ class Command(BaseCommand, SheetFormatMixin):
         """
         self.client = authenticate()
         self.worksheet = self.client.open("Invoices").sheet1
+        
         self.format_header()
+        self.invoicer_name()
+        self.add_invoicer_address()
+        self.add_submission_date()
