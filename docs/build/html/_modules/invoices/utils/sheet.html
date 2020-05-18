@@ -79,6 +79,9 @@
 
     <span class="n">TABLE_HEADER_ROW</span> <span class="o">=</span> <span class="s2">&quot;19&quot;</span>
     <span class="n">DESCRIPTION_HEADER</span> <span class="o">=</span> <span class="s2">&quot;B&quot;</span> <span class="o">+</span> <span class="n">TABLE_HEADER_ROW</span>
+    <span class="n">RATE_HEADER</span> <span class="o">=</span> <span class="s2">&quot;E&quot;</span> <span class="o">+</span> <span class="n">TABLE_HEADER_ROW</span>
+    <span class="n">HOURS_HEADER</span> <span class="o">=</span> <span class="s2">&quot;F&quot;</span> <span class="o">+</span> <span class="n">TABLE_HEADER_ROW</span>
+    <span class="n">TOTAL_HEADER</span> <span class="o">=</span> <span class="s2">&quot;G&quot;</span> <span class="o">+</span> <span class="n">TABLE_HEADER_ROW</span>
     <span class="n">TABLE_FIRST_ROW</span> <span class="o">=</span> <span class="s2">&quot;20&quot;</span>
     <span class="n">TABLE_START_COLUMN</span> <span class="o">=</span> <span class="s2">&quot;B&quot;</span>
 
@@ -163,7 +166,28 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PAYABLE_TO</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">FULL_NAME</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">INVOICE_NUMBER_TITLE</span><span class="p">,</span> <span class="s2">&quot;Invoice #&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PROJECT_TITLE</span><span class="p">,</span> <span class="s2">&quot;Project&quot;</span><span class="p">)</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PROJECT_TITLE</span><span class="p">,</span> <span class="s2">&quot;Project&quot;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="SheetFormatMixin.add_table_headers"><a class="viewcode-back" href="../../../index.html#invoices.utils.sheet.SheetFormatMixin.add_table_headers">[docs]</a>    <span class="k">def</span> <span class="nf">add_table_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add header tables</span>
+
+<span class="sd">        Add the headers to the session table</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DESCRIPTION_HEADER</span><span class="p">,</span> <span class="s2">&quot;Description&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">RATE_HEADER</span><span class="p">,</span> <span class="s2">&quot;Rate&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">HOURS_HEADER</span><span class="p">,</span> <span class="s2">&quot;Hours&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TOTAL_HEADER</span><span class="p">,</span> <span class="s2">&quot;Total&quot;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="SheetFormatMixin.write_formulas_to_invoice"><a class="viewcode-back" href="../../../index.html#invoices.utils.sheet.SheetFormatMixin.write_formulas_to_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">write_formulas_to_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TABLE_FIRST_ROW</span>
+
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoice_data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update_acell</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">TABLE_START_COLUMN</span> <span class="o">+</span> <span class="n">row</span><span class="p">,</span> <span class="n">entry</span><span class="p">[</span><span class="s2">&quot;formula&quot;</span><span class="p">])</span>
+            
+            <span class="n">row</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>

@@ -45,6 +45,9 @@ class SheetFormatMixin:
 
     TABLE_HEADER_ROW = "19"
     DESCRIPTION_HEADER = "B" + TABLE_HEADER_ROW
+    RATE_HEADER = "E" + TABLE_HEADER_ROW
+    HOURS_HEADER = "F" + TABLE_HEADER_ROW
+    TOTAL_HEADER = "G" + TABLE_HEADER_ROW
     TABLE_FIRST_ROW = "20"
     TABLE_START_COLUMN = "B"
 
@@ -130,3 +133,24 @@ class SheetFormatMixin:
 
         self.worksheet.update(self.INVOICE_NUMBER_TITLE, "Invoice #")
         self.worksheet.update(self.PROJECT_TITLE, "Project")
+    
+    def add_table_headers(self):
+        """Add header tables
+
+        Add the headers to the session table
+        """
+        self.worksheet.update(self.DESCRIPTION_HEADER, "Description")
+        self.worksheet.update(self.RATE_HEADER, "Rate")
+        self.worksheet.update(self.HOURS_HEADER, "Hours")
+        self.worksheet.update(self.TOTAL_HEADER, "Total")
+    
+    def write_formulas_to_invoice(self):
+        """
+        """
+        row = self.TABLE_FIRST_ROW
+
+        for entry in self.invoice_data:
+            self.worksheet.update_acell(
+                self.TABLE_START_COLUMN + row, entry["formula"])
+            
+            row = str(int(row) + 1)
