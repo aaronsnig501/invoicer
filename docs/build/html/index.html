@@ -217,6 +217,32 @@ specified in the <cite>serializer_class</cite></td>
 </dd></dl>
 
 </div>
+<div class="section" id="module-invoices.models">
+<span id="invoices-models"></span><h1>Invoices models<a class="headerlink" href="#module-invoices.models" title="Permalink to this headline">¶</a></h1>
+<p>Model module</p>
+<p>The models for the invoices app. This model will keep track of all of the
+existing invoices, and once the invoice cron task is run, a new record will be
+generated here</p>
+<dl class="class">
+<dt id="invoices.models.Invoice">
+<em class="property">class </em><code class="descclassname">invoices.models.</code><code class="descname">Invoice</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/invoices/models.html#Invoice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#invoices.models.Invoice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoice model</p>
+<p>This model will keep track of the invoices, their numbers, due dates, etc.</p>
+<p>Each new invoice will be generated with a new unique value, as well as a
+list of the sessions and the total value of all of the work completed.</p>
+<dl class="exception">
+<dt id="invoices.models.Invoice.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#invoices.models.Invoice.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="invoices.models.Invoice.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#invoices.models.Invoice.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
 
 
           </div>
@@ -235,6 +261,7 @@ specified in the <cite>serializer_class</cite></td>
 <li><a class="reference internal" href="#module-projects.models">Projects models</a></li>
 <li><a class="reference internal" href="#module-projects.serializers">Projects serializers</a></li>
 <li><a class="reference internal" href="#module-projects.views">Projects views</a></li>
+<li><a class="reference internal" href="#module-invoices.models">Invoices models</a></li>
 </ul>
 <div class="relations">
 <h3>Related Topics</h3>

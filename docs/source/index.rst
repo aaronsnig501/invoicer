@@ -52,3 +52,9 @@ Projects views
 ==============
 .. automodule:: projects.views
    :members:
+
+
+Invoices models
+===============
+.. automodule:: invoices.models
+   :members:
