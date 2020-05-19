@@ -50,6 +50,11 @@ class SheetFormatMixin:
     TOTAL_HEADER = "G" + TABLE_HEADER_ROW
     TABLE_FIRST_ROW = "20"
     TABLE_START_COLUMN = "B"
+    LAST_ROW = ""
+
+    SUBTOTAL_TITLE_COLUMN = "F"
+    SUBTOTAL_COLUMN = "G"
+    TOTAL_COLUMN = "F"
 
     def format_header(self):
         """Format the header of the invoice.
@@ -157,3 +162,17 @@ class SheetFormatMixin:
                 self.TABLE_START_COLUMN + row, entry["formula"])
             
             row = str(int(row) + 1)
+        
+        self.LAST_ROW = str(int(row))
+    
+    def write_the_total_billable(self):
+        """Write the total value to the invoice
+
+        Update the invoice with the subtotal and total values
+        """
+        self.worksheet.update(
+            self.SUBTOTAL_TITLE_COLUMN + self.LAST_ROW, "Subtotal")
+        self.worksheet.update(
+            self.SUBTOTAL_COLUMN + self.LAST_ROW, self.total_billable)
+        self.worksheet.update(
+            self.TOTAL_COLUMN + str(int(self.LAST_ROW) + 2), self.total_billable)

@@ -52,6 +52,7 @@ class Command(BaseCommand, SheetFormatMixin):
             self.project.rate, options["month"], options["year"])
         self.additional_data = requests.get(self.additional_data_url)
         self.invoice_data = self.additional_data.json()
+        self.total_billable = sum(entry["total_billable"] for entry in self.invoice_data)
         
         # Update the Invoice in Sheets
         self.format_header()
@@ -62,3 +63,4 @@ class Command(BaseCommand, SheetFormatMixin):
         self.add_additional_titles_to_header()
         self.add_table_headers()
         self.write_formulas_to_invoice()
+        self.write_the_total_billable()
