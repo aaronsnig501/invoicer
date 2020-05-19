@@ -36,7 +36,7 @@
 
 <span class="sd">Handle the formatting of the Google Sheet</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
 <span class="kn">from</span> <span class="nn">gspread_formatting</span>  <span class="kn">import</span> <span class="p">(</span>
     <span class="n">cellFormat</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">textFormat</span><span class="p">,</span> <span class="n">format_cell_ranges</span><span class="p">)</span>
@@ -146,22 +146,22 @@
 <span class="sd">        Add today&#39;s date as the date of submission</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SUBMISSION_DATE</span><span class="p">,</span> <span class="s2">&quot;Submitted on: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y&quot;</span><span class="p">)))</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">invoicing_date</span><span class="p">))</span></div>
     
 <div class="viewcode-block" id="SheetFormatMixin.add_due_date"><a class="viewcode-back" href="../../../index.html#invoices.utils.sheet.SheetFormatMixin.add_due_date">[docs]</a>    <span class="k">def</span> <span class="nf">add_due_date</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add the due date</span>
 
 <span class="sd">        The due date for the invoice will be 30 days after the submission date</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">due_date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DUE_DATE_TITLE</span><span class="p">,</span> <span class="s2">&quot;Due Date&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DUE_DATE</span><span class="p">,</span> <span class="n">due_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y&quot;</span><span class="p">))</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DUE_DATE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">due_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y&quot;</span><span class="p">))</span></div>
     
 <div class="viewcode-block" id="SheetFormatMixin.add_additional_titles_to_header"><a class="viewcode-back" href="../../../index.html#invoices.utils.sheet.SheetFormatMixin.add_additional_titles_to_header">[docs]</a>    <span class="k">def</span> <span class="nf">add_additional_titles_to_header</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add additional titles to the invoicer header</span>
 
 <span class="sd">        Add the remainder of the information to the header of the invoice</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TITLE</span><span class="p">,</span> <span class="s2">&quot;Invoice&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PAYABLE_TO_TITLE</span><span class="p">,</span> <span class="s2">&quot;Payable To&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PAYABLE_TO</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">FULL_NAME</span><span class="p">)</span>
 
@@ -179,7 +179,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TOTAL_HEADER</span><span class="p">,</span> <span class="s2">&quot;Total&quot;</span><span class="p">)</span></div>
     
 <div class="viewcode-block" id="SheetFormatMixin.write_formulas_to_invoice"><a class="viewcode-back" href="../../../index.html#invoices.utils.sheet.SheetFormatMixin.write_formulas_to_invoice">[docs]</a>    <span class="k">def</span> <span class="nf">write_formulas_to_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Write formulas to the invoice</span>
+
+<span class="sd">        Iterate over the entries in the data recieved from the API and write</span>
+<span class="sd">        the formulas to the Sheet</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TABLE_FIRST_ROW</span>
 

@@ -2,6 +2,7 @@
 
 This command will be used generate a new invoice in Google Sheets every month.
 """
+from datetime import timedelta
 from datetime import date
 import requests
 from django.conf import settings
@@ -31,18 +32,28 @@ class Command(BaseCommand, SheetFormatMixin):
 
     def handle(self, *args, **options):
         """Handle the command
+
+        This command will retrieve the data from the API, add all of the data
+        to the Google Sheet and generate a matching record in Invoice model
         """
+        # Authenticate with Google and get the worksheet
         self.client = authenticate()
         self.worksheet = self.client.open("Invoices").sheet1
+
+        # Get the project details
         self.project = Project.objects.get(name__icontains=options["project"])
-        self.invoicing_date = date.today()
+
+        # Set the date information for this invoice
+        self.invoicing_date = date.today().strftime("%d/%m/%Y")
+        self.due_date = date.today() + timedelta(days=30)
+
+        # Get the additional data from the API
         self.additional_data_url = settings.ADDITIONAL_INVOICE_DATA_URL.format(
             self.project.rate, options["month"], options["year"])
-
         self.additional_data = requests.get(self.additional_data_url)
-        
         self.invoice_data = self.additional_data.json()
         
+        # Update the Invoice in Sheets
         self.format_header()
         self.invoicer_name()
         self.add_invoicer_address()

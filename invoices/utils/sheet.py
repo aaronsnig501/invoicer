@@ -2,7 +2,7 @@
 
 Handle the formatting of the Google Sheet
 """
-from datetime import timedelta
+
 from datetime import date
 from gspread_formatting  import (
     cellFormat, color, textFormat, format_cell_ranges)
@@ -112,22 +112,22 @@ class SheetFormatMixin:
         Add today's date as the date of submission
         """
         self.worksheet.update(self.SUBMISSION_DATE, "Submitted on: {}".format(
-            date.today().strftime("%d/%m/%Y")))
+            self.invoicing_date))
     
     def add_due_date(self):
         """Add the due date
 
         The due date for the invoice will be 30 days after the submission date
         """
-        due_date = date.today() + timedelta(days=30)
         self.worksheet.update(self.DUE_DATE_TITLE, "Due Date")
-        self.worksheet.update(self.DUE_DATE, due_date.strftime("%d/%m/%Y"))
+        self.worksheet.update(self.DUE_DATE, self.due_date.strftime("%d/%m/%Y"))
     
     def add_additional_titles_to_header(self):
         """Add additional titles to the invoicer header
 
         Add the remainder of the information to the header of the invoice
         """
+        self.worksheet.update(self.TITLE, "Invoice")
         self.worksheet.update(self.PAYABLE_TO_TITLE, "Payable To")
         self.worksheet.update(self.PAYABLE_TO, settings.FULL_NAME)
 
@@ -145,7 +145,10 @@ class SheetFormatMixin:
         self.worksheet.update(self.TOTAL_HEADER, "Total")
     
     def write_formulas_to_invoice(self):
-        """
+        """Write formulas to the invoice
+
+        Iterate over the entries in the data recieved from the API and write
+        the formulas to the Sheet
         """
         row = self.TABLE_FIRST_ROW
 

@@ -36,6 +36,7 @@
 
 <span class="sd">This command will be used generate a new invoice in Google Sheets every month.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
@@ -65,18 +66,28 @@
 
 <div class="viewcode-block" id="Command.handle"><a class="viewcode-back" href="../../../../index.html#invoices.management.commands.generate_invoice.Command.handle">[docs]</a>    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Handle the command</span>
+
+<span class="sd">        This command will retrieve the data from the API, add all of the data</span>
+<span class="sd">        to the Google Sheet and generate a matching record in Invoice model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Authenticate with Google and get the worksheet</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">worksheet</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;Invoices&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sheet1</span>
+
+        <span class="c1"># Get the project details</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">project</span> <span class="o">=</span> <span class="n">Project</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name__icontains</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;project&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">invoicing_date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+
+        <span class="c1"># Set the date information for this invoice</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">invoicing_date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">/%m/%Y&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">due_date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+        <span class="c1"># Get the additional data from the API</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">additional_data_url</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">ADDITIONAL_INVOICE_DATA_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">rate</span><span class="p">,</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">],</span> <span class="n">options</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">])</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">additional_data</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">additional_data_url</span><span class="p">)</span>
-        
         <span class="bp">self</span><span class="o">.</span><span class="n">invoice_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">additional_data</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
         
+        <span class="c1"># Update the Invoice in Sheets</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">format_header</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">invoicer_name</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_invoicer_address</span><span class="p">()</span>

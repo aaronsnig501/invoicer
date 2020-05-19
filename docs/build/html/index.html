@@ -331,7 +331,10 @@ both here</p>
 <dl class="method">
 <dt id="invoices.utils.sheet.SheetFormatMixin.write_formulas_to_invoice">
 <code class="descname">write_formulas_to_invoice</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/invoices/utils/sheet.html#SheetFormatMixin.write_formulas_to_invoice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#invoices.utils.sheet.SheetFormatMixin.write_formulas_to_invoice" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Write formulas to the invoice</p>
+<p>Iterate over the entries in the data recieved from the API and write
+the formulas to the Sheet</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -357,6 +360,8 @@ Sheets</p>
 <dt id="invoices.management.commands.generate_invoice.Command.handle">
 <code class="descname">handle</code><span class="sig-paren">(</span><em>*args</em>, <em>**options</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/invoices/management/commands/generate_invoice.html#Command.handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#invoices.management.commands.generate_invoice.Command.handle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Handle the command</p>
+<p>This command will retrieve the data from the API, add all of the data
+to the Google Sheet and generate a matching record in Invoice model</p>
 </dd></dl>
 
 </dd></dl>
