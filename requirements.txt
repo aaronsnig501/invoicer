@@ -15,7 +15,7 @@ google-auth==1.14.2
 google-auth-oauthlib==0.4.1
 gspread==3.6.0
 gspread-formatting==0.2.4
-httplib2==0.17.3
+httplib2==0.18.0
 idna==2.9
 imagesize==1.2.0
 Jinja2==2.11.2
