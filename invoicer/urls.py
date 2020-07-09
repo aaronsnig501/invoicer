@@ -16,6 +16,7 @@ Including another URLconf
 from django.urls import include, path
 from django.contrib import admin
 from rest_framework import routers
+from invoices import views
 from work_sessions.views import SessionViewset
 from projects.views import ProjectViewset
 
@@ -28,6 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.authtoken')),
+    path('api/public/', views.public),
+    path('api/private/', views.private),
+    path('api/private-scoped/', views.private_scoped),
 ]

@@ -8,8 +8,6 @@ commonmark==0.9.1
 Django==3.0.6
 django-templated-mail==1.1.1
 djangorestframework==3.11.0
-djangorestframework-simplejwt==4.4.0
-djoser==2.0.3
 docutils==0.16
 google-auth==1.14.2
 google-auth-oauthlib==0.4.1
@@ -26,7 +24,6 @@ packaging==20.3
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 Pygments==2.6.1
-PyJWT==1.7.1
 pyparsing==2.4.7
 pytz==2020.1
 recommonmark==0.6.0
@@ -44,3 +41,7 @@ Sphinx==1.7.5
 sphinxcontrib-websupport==1.2.2
 sqlparse==0.3.1
 urllib3==1.25.9
+cryptography~=2.8
+django-cors-headers~=3.1.1
+drf-jwt~=1.13.3
+pyjwt~=1.7.1
