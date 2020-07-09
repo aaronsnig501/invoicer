@@ -5,7 +5,7 @@ cachetools==4.1.0
 certifi==2020.4.5.1
 chardet==3.0.4
 commonmark==0.9.1
-Django==3.0.6
+Django==3.0.7
 django-templated-mail==1.1.1
 djangorestframework==3.11.0
 docutils==0.16
